@@ -17,12 +17,12 @@
 - [ReAct: Synergizing Reasoning and Acting in Language Models](https://arxiv.org/abs/2210.03629), 让模型输出reason thought，同时也让模型输出action（比如去搜索网络结果），也就是reason（Re） + action(Act)，合并为ReAct。实际的inference过程大致上分为：reason -> action -> observation
 - [Plan-and-Solve Prompting: Improving Zero-Shot Chain-of-Thought Reasoning by Large Language Models](https://arxiv.org/abs/2305.04091), 提出Plan-and-Solve Prompting，就是简单的将Zeroshot CoT中的“Let’s think step by step”替换成“Let’s first understand the problem and devise a plan to solve the problem. Then, let’s carry out the plan and solve the problem step by step”, 本质上是一个prompt engineer的工作。
 - [InterCode: Standardizing and Benchmarking Interactive Coding with Execution Feedback](https://arxiv.org/abs/2306.14898), 直言现在都是static instruction-to-code错误有可能传导。提出InterCode，类比强化学习的设定，将code当做action，execution feedback当做observation，主要在Bash和SQL任务上做了一些实验。
-- 
-- 
-- 
-- 
-- 
-- 
+- [Embodied Task Planning with Large Language Models](https://arxiv.org/abs/2307.01848), 在embodied agent上提出TAsk Planing Agent (TaPA), 在一个simulator中（AI2-THOR），通过不同点的viewpoint，然后识别这些viewpoint中有哪些物体，另外再加上人类的instruction（比如做一个三明治），输入GPT-3.5，让它在object list和instruction的输入下生成详细的task planning步骤，这样便能够得到一个数据集。实验使用LLaMA在这个生成的数据集上进行finetune，然后使用finetune之后的LLaMA生成不同scene下不同task planning，最后请30个志愿者对task planning做评估。这篇paper还只是完成了机器人的第一步，就是用LLM生成任务plan，但并没有让机器人实际去执行这些动作。不过其实也是一篇用推理和规划的中间过程对LLM做finetune的又一个工作。
+- [Language Models Are Greedy Reasoners: A Systematic Formal Analysis of Chain-of-Thought](https://arxiv.org/abs/2210.01240), 提出PRONTOQA（Proof and Ontology-Generated Question Answering）数据集，主要分成三个步骤：ontology generation, proof generation，然后生成一个自然语言样例，包括question，CoT和label。有了这个PrOntoQA数据集之后，作者拿InstructGPT和ChatGPT来做了测试，发现较大size的模型才能够做推理，但是在需要多跳上的推理数据上表现都很差。paper更多是提出一个数据集，并没有做任何模型训练。
+- [Distilling Script Knowledge from Large Language Models for Constrained Language Planning](https://arxiv.org/abs/2305.05252), 提出一个constrained language planning问题，也就是在带限制条件的plan问题，比如make a cake是一个普通问题，但是make a cake for diabetics就是带条件的plan问题了。通过over-generate-then-filter的方式用ChatGPT最终得到了55000个样本，叫做CoScripts(Constrained Scripts)，最后用这份数据对T5做finetune，效果提升显著。作者把这种script叫做goal-oriented scripts。
+- [Least-to-Most Prompting Enables Complex Reasoning in Large Language Models](https://arxiv.org/abs/2205.10625), 提出least-to-most prompting方法，本质上就是分解的思想，整体分成两步：第一步，让模型先分解成子问题；第二步，按顺序依次解决子问题，后一个子问题会依赖于前一个子问题的答案。这个思路和ReAct尤其和Decomposed Prompting方法很类似。
+- [Teaching Arithmetic to Small Transformers](https://arxiv.org/abs/2307.03381), 主要目的是提高小模型解决数学问题的能力。几个主要的发现：数据format非常重要，比如在多位数加法中简单的把输出结果中的数字调换一下顺序就能获得很好的效果提升，另外直接在CoT数据上进行训练效果非常显著，哪怕模型是随机初始化的并未经过pretrain阶段。
+- [Symbol tuning improves in-context learning in language models](https://arxiv.org/abs/2305.08298), 这个文章提出symbol tuning，也就是在instruction tuning中，将few shot示例中的label用一个无关词代替，能够显著提升效果。比如说把情感分类任务重的positive或者negative用一个无关的foo和bar这种标记作为label。这也从侧面印证了模型更重要的是format。
 - [Towards Reasoning in Large Language Models: A Survey](https://arxiv.org/abs/2212.10403), 相关论文放在了https://github.com/jeffhj/LM-reasoning。将推理主要分为演绎推理，归纳推理和归因推理，以及区分为formal和informal，paper中主要聚焦在informal deductive reasoning问题，但整个paper主要关注finetune和prompt侧，没有提到pretrain阶段的工作。
 - [Natural Language Reasoning, A Survey](https://arxiv.org/abs/2303.14725), paper作者更看好defeasible reasoning，和deductive reasoning相比，这种推理方式只会得出可能的结论，也就是不保证推理结果的严格正确性。
 
@@ -37,3 +37,5 @@
 - https://github.com/jeffhj/LM-reasoning
 - https://nl-reasoning-workshop.github.io/， ACL2023 Reasoning topic
 - [复杂推理：大语言模型的北极星能力](https://yaofu.notion.site/6dafe3f8d11445ca9dcf8a2ca1c5b199), pretrain/finetune/RL/prompt阶段都有办法提高推理能力。
+- [ACL 2023 Tutorial: Complex Reasoning in Natural Language](https://wenting-zhao.github.io/complex-reasoning-tutorial/), 
+- [LLM Tool Use Papers](https://github.com/xlang-ai/llm-tool-use), 有关tool use paper的github repo

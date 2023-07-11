@@ -26,6 +26,8 @@ A Winning Combination for Large Language Models，https://arxiv.org/pdf/2305.147
 - [The Flan Collection: Designing Data and Methods for Effective Instruction Tuning](https://arxiv.org/abs/2301.13688), Flan-v2版本，混合了Flan-v1，P3，SNI，包含了zero-shot,few-shot和CoT的数据。paper里发现混合zeroshot和fewshot以及CoT数据，最有助于模型效果的提升，而通过Flan-v2 instruction tuning之后的T5，能够超过几十倍大小模型的OPT效果。
 
 ## Alignment
+- [Training Socially Aligned Language Models in Simulated Human Society](https://arxiv.org/abs/2305.16960), 提出Stable Alignment方法，具体方法是建了一个由许多个LM agent组成的一个sandbox，然后基于社交规则可以获得模拟的评分，step-by-step的响应以及各种feedback数据。通过这些数据可以进行contrastive SFT（让模型偏好于评分更高的alignment数据上）。Stable Alignment方法不需要强化学习。
+
 
 ## Evaluation
 - [A Survey on Evaluation of Large Language Models](https://arxiv.org/abs/2307.03109), 
@@ -34,8 +36,10 @@ A Winning Combination for Large Language Models，https://arxiv.org/pdf/2305.147
 ## Multimodal
 
 ## Code
+- [RLTF: Reinforcement Learning from Unit Test Feedback](https://arxiv.org/abs/2307.04349), 提出RLTF (Reinforcement Learning from unit Test Feedback), 利用单元测试的结果作为强化学习的反馈信号，这个idea非常自然。
 
 ## Agent
+- [Large Language Models as Tool Makers](https://arxiv.org/abs/2305.17126), 让GPT4作为tool maker制作一些工具（主要是可调用的Python代码），然后让弱一点的模型作为tool user，这样可以大幅提升小模型的能力。
 - [Embodied Task Planning with Large Language Models](https://arxiv.org/abs/2307.01848), 
 
 
