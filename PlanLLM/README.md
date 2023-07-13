@@ -1,9 +1,10 @@
 # Paper
 - [Solving Quantitative Reasoning Problems with Language Models](https://arxiv.org/abs/2206.14858), 提出Minerva模型，在PaLM的基础上用technical content进行continual training得到。最终在MATH, GSM8k和STEM（从MMLU中抽取出来的science,technology,engineering and mathematics）上达到了当时的SOTA。
 - [Galactica: A Large Language Model for Science](https://arxiv.org/abs/2211.09085), 在大量高度curated的专业文献，学科，教科书，讲义和科学网站等数据训练，数据量为106B tokens，并且重复多个epoch有正向收益。在数据组织上有两个比较有意思的trick，第一是把论文的引用用某个特定标记符标志出来这是citation，第二是对于需要多步推导的过程用<work></work>这种标记符进行区分，让模型能够知道这是memory的工作区域而并非最终答案。
+- [The Flan Collection: Designing Data and Methods for Effective Instruction Tuning](https://arxiv.org/abs/2301.13688), 
 - [Scaling Instruction-Finetuned Language Models](Scaling Instruction-Finetuned Language Models), Flan(Finetuning Language model)，paper发现instruction tuning符合scaling law：增大模型或者增大Flan数据集的task数量能带来收益，在CoT和非CoT数据集上进行训练能够带来很大的reasoning能力。
 - [Specializing Smaller Language Models towards Multi-Step Reasoning](https://arxiv.org/abs/2301.12726), 牺牲模型的通用能力聚焦在CoT能力上，通过finetune蒸馏GPT-3.5的多步推理过程，可以让小模型具备显著的CoT能力提升。
-- [Solving math word problems with process- and outcome-based feedback](https://arxiv.org/abs/2211.14275), DeepMind的一篇工作，主要比较在GSM8K数学题上分别使用outcome-based supervised和process-based supervised两种方法，最后发现：在final-answer error rates上，这两种方法相差不大，process-based方法略低，并且使用强化学习都能够比只使用监督方法效果更好；而在trace error rates上（主要考察过程是否正确），需要process-based feedback，且需要reward model。总之：在最终结果的预测上，process based feedback作用不大，但如果要求trace error rates，则process based feedback作用则非常大。并且，无论是最终结果还是trace error rates，基于outcome或者process的reward model都很重要。
+- [Solving math word problems with process- and outcome-based feedback](https://arxiv.org/abs/2211.14275), DeepMind的一篇工作，主要比较在GSM8K数学题上分别使用outcome-based supervised和process-based supervised两种方法，最后发现：在final-answer error rates上，这两种方法相差不大，process-based方法略低，并且使用强化学习都能够比只使用监督方法效果更好；而在trace error rates上（主要考察过程是否正确），需要process-based feedback，且需要reward model。总之：在最终结果的预测上，process based feedback作用不大，但如果要求trace error rates，则process based feedback作用则非常大。并且，无论是最终结果还是trace error rates，基于outcome或者process的reward model都很重要。这个结果后来被OpenAI的 [Let's Verify Step by Step](https://arxiv.org/abs/2305.20050)推翻了。
 - [CodeRL: Mastering Code Generation through Pretrained Models and Deep Reinforcement Learning](https://arxiv.org/abs/2207.01780), 提出CodeRL框架，将生成代码的LM作为actor network，然后crictic network预测代码通过率并给出一个dense feedback(主要的反馈来源包括编译和运行结果或者单元测试结果等)，在inference阶段，模型也可以通过这个crictic network进行动态生成和实时的调整。模型结构使用基于encoder-decoder的CodeT5模型。但似乎2023年放出的CodeT5并没有使用CodeRL.
 - [Decomposed Prompting: A Modular Approach for Solving Complex Tasks](https://arxiv.org/abs/2210.02406), 提出Decomposed Prompting，核心思想是可以将复杂的prompt分解成sub prompt，太长的prompt可以分解为较短的prompt，并且每一个sub prompt还可以递归的进行分解。
 - [Self-Consistency Improves Chain of Thought Reasoning in Language Models](https://arxiv.org/abs/2203.11171), 相比普通的decode策略，self-consistency则一次采样多个，然后选择一致性最高的答案，类似于多数投票。
@@ -25,13 +26,29 @@
 - [Symbol tuning improves in-context learning in language models](https://arxiv.org/abs/2305.08298), 这个文章提出symbol tuning，也就是在instruction tuning中，将few shot示例中的label用一个无关词代替，能够显著提升效果。比如说把情感分类任务重的positive或者negative用一个无关的foo和bar这种标记作为label。这也从侧面印证了模型更重要的是format。
 - [Towards Reasoning in Large Language Models: A Survey](https://arxiv.org/abs/2212.10403), 相关论文放在了https://github.com/jeffhj/LM-reasoning。将推理主要分为演绎推理，归纳推理和归因推理，以及区分为formal和informal，paper中主要聚焦在informal deductive reasoning问题，但整个paper主要关注finetune和prompt侧，没有提到pretrain阶段的工作。
 - [Natural Language Reasoning, A Survey](https://arxiv.org/abs/2303.14725), paper作者更看好defeasible reasoning，和deductive reasoning相比，这种推理方式只会得出可能的结论，也就是不保证推理结果的严格正确性。
+- [Integrating Action Knowledge and LLMs for Task Planning and Situation Handling in Open Worlds](https://arxiv.org/abs/2305.17590), 将大模型的能力与PDDL进行结合，主要是将一些常识能力引入到PDDL中。
+- [PlaSma: Making Small Language Models Better Procedural Knowledge Models for (Counterfactual) Planning](https://arxiv.org/abs/2305.19472), 先是通过ChatGPT（teacher model）构造了一个plan的数据集，叫做CoPlan数据集，每一条数据包含(goal,plan,condition)，然后再训练一个小模型（这一步叫做所谓的 symbolic procedural knowledge distillation），最后在inference阶段通过多步搜索方法挑选出比较好的step路径（每一个step都有一个verifier进行打分）。最后通过人工评估，以及和teacher model生成的plan比较BLEU或ROUGE等指标。
+- [Let's Verify Step by Step](https://arxiv.org/abs/2305.20050), 使用process supervission方法解决了78.2%的MATH问题；使用active learning能够大大提升样本效率。公开了PRM800K的数据集。具体方法：在pretrain后的model上用MathMix（1.5B tokens）做finetune，这个模型叫做base model。然后再使用few shot形式在MATH数据集上让模型生成一些solutions，过滤那些能够得到正确答案的solutions，在这个新的带solutions的MATH数据集上对base model进行finetune后得到generator。最后再让这个generator对MATH数据集生成step by step solutions，然后交给人类去进行标注。最后搜集到了800k个 step-level的数据。（针对12k个math问题总共75k个solutions）。为了让数据标注效率更高，主要选择process reward model打分很高但是错误的solutions给到人工标注，并且每隔一段时间用新搜集到的部分数据重新训一遍PRM，再挑选标注数据。具体使用的方法与[Solving math word problems with process- and outcome-based feedback](https://arxiv.org/abs/2211.14275)很相似。
+- [Neuro-Symbolic Procedural Planning with Commonsense Prompting](https://arxiv.org/abs/2206.02928), 主要是扩展了Structural Causal Model，并且通过ConceptNet引入常识从而辅助提出更好的prompt，从而可以让LLM从goal生成step。基本方式：针对某个任务，先借助于一个外部的知识库进行检索得到这个任务相关的graph，然后通过检索得到的subgraph构造一个prompt，再把这个prompt输入到两个嵌套的LM中，最后输出可接受的step.
+- [Language Models of Code are Few-Shot Commonsense Learners](https://arxiv.org/abs/2210.07128), 提出COCOGEN，主要研究structured commonsense reasoning问题，主要贡献是证明了code-LM比自然语言LM是更好的推理器，核心思路是把一个常识推理问题转化成代码生成问题，将一个推理graph用Python代码来表示，从而可以直接用Code-LM来解决。
+- [Distilling Step-by-Step! Outperforming Larger Language Models with Less Training Data and Smaller Model Sizes](https://arxiv.org/abs/2305.02301), 蒸馏大模型的step by step中间过程，用770M的T5模型能够打败540B的PaLM模型。
+- [STaR: Bootstrapping Reasoning With Reasoning](https://arxiv.org/abs/2203.14465), 通过few shot方式让LM在给定正确答案情况下生成rationale，如果不对就重试，搜集更多rationales之后就在上面把LM finetune一把，然后再继续few shot的过程以搜集更多rationales，重复这个过程。但是实验发现只能在简单的推理问题上有效果提升，在复杂的推理问题上效果比较差。
+- [Distilling Reasoning Capabilities into Smaller Language Models](https://arxiv.org/abs/2212.00193), 提出Socratic CoT方法，通过few shot的方式让LLM先做问题分解，然后再分别解决子问题。同时训练两个小模型，一个用来做问题分解，另一个做子问题。
+- [Guess the Instruction! Flipped Learning Makes Language Models Stronger Zero-Shot Learners](https://arxiv.org/abs/2210.02969), 提出一个Flipped Learning方法，核心思想是给定input和label的情况下，让模型生成instruction，而普通的few shot方式则是instructio+input，让模型给出label。这里刚好是一个逆过程。实验结果表明，在zero shot设定下，flipped learning之后的模型效果是最好的，哪怕参数比GPT3小几十上百倍，但是依然比GPT3和PaLM的zero shot效果好很多，甚至比GPT3的3-shot效果还要好。
+- [Noisy Channel Language Model Prompting for Few-Shot Text Classification](https://arxiv.org/abs/2108.04106), 
+- [MetaICL: Learning to Learn In Context](https://arxiv.org/abs/2110.15943),
+
 
 # Dataset
 - MMLU, 
 - DROP, Discrete Reasoning Over Paragraphs
 - CRASS, The Counterfactual Reasoning Assessment
 - HumanEval
-- BigBench
+- BigBench Hard
+- COIG, https://huggingface.co/datasets/BAAI/COIG, Chinese Open Instruction Generalist
+- OpenOrca, https://huggingface.co/datasets/Open-Orca/OpenOrca
+- COPA, https://huggingface.co/datasets/vietgpt/copa_en
+
 
 # other
 - https://github.com/jeffhj/LM-reasoning

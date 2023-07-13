@@ -41,8 +41,10 @@ A Winning Combination for Large Language Models，https://arxiv.org/pdf/2305.147
 ## Agent
 - [Large Language Models as Tool Makers](https://arxiv.org/abs/2305.17126), 让GPT4作为tool maker制作一些工具（主要是可调用的Python代码），然后让弱一点的模型作为tool user，这样可以大幅提升小模型的能力。
 - [Embodied Task Planning with Large Language Models](https://arxiv.org/abs/2307.01848), 
+- [Robots That Ask For Help: Uncertainty Alignment for Large Language Model Planners](https://arxiv.org/abs/2307.01928), 让模型知道它们不知道从而寻求人类的帮助。具体就是使用Conformal Prediction方法在预测下一个步骤的时候，给每个可能选项带上分数，如果超过阈值的选项个数大于1个，模型则会反问人类并寻求帮助。
 
-
+## RAG
+- [REALM: Retrieval-Augmented Language Model Pre-Training](https://arxiv.org/abs/2002.08909), 提出REALM，基于bert的Mask方法，在预测某个被masked的token时候，去检索Wikipedia语料，拿到结果与当前上下文共同预测这个被masked词。
 
 # blog
 - [June 2023, A Stage Review of Instruction Tuning](https://yaofu.notion.site/June-2023-A-Stage-Review-of-Instruction-Tuning-f59dbfc36e2d4e12a33443bd6b2012c2), FLANv2几乎能提升模型所有方面的能力除了human preference，因为Flan本身回复都偏短且主要是NLP任务为主，instruction mixture很重要需要考虑到各个下游能力的平衡（英文能力MMLU，中文C-Eval，推理主要是GSM8k，coding主要是HumanEval等等）。相关Tweet：https://twitter.com/Francis_YAO_/status/1674287552562360329
@@ -53,3 +55,7 @@ A Winning Combination for Large Language Models，https://arxiv.org/pdf/2305.147
   - 强化学习阶段则可以使用中间信号建模reward，而不是一个最终的答案
   - prompt engineer阶段则可以使用非常多方式提升LLM的推理能力。
 - [Prompt Engineering](https://lilianweng.github.io/posts/2023-03-15-prompt-engineering/), 系统的介绍。
+
+
+# Dataset
+- [Chinese Open Instruction Generalist](https://huggingface.co/datasets/BAAI/COIG), 中文instruction tuning数据集。
