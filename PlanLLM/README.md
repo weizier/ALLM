@@ -15,7 +15,7 @@
 - [Orca: Progressive Learning from Complex Explanation Traces of GPT-4](https://arxiv.org/abs/2306.02707), 提出Explanation Tuning，通过imitation learning的方式让模型能够学习GPT4的输出，包括explanation traces, step-by-step thought processes等。从Flan-v2中采样5百万条数据，先用ChatGPT生成，然后再从中采样1百万条用GPT4生成复杂prompt，在请求GPT4时候用到的指令类似于"explain like I’m five, think step-by-step and justify your response...".
 - [Rethinking the Role of Demonstrations: What Makes In-Context Learning Work?](https://arxiv.org/abs/2202.12837), 在in-context-learning提供给模型的示例中，发现两个比较重要的点：第一，格式最重要，而示例中是否是golden label并没有那么重要，相比golden label用一个随机label替换效果只有轻微降低，但是完全没有label则会带来很大的损失；第二，input和label的分布空间比较重要。比如input如果是从别的语料中随机采样，或者label是随机选择的一个别的英语单词，这种都属于out of distribution space，则会带来很大的性能损失。这些结果表明LLM在ICL中并没有进行学习（否则就会学到错误的label），只是通过ICL的format和space激发LLM已有的能力，此外在zero shot的设定中，哪怕随机组合一些input和label也能有很明显的效果。这些都说明了LLM非常需要一种结构化的信息。
 - [Text and Patterns: For Effective Chain of Thought, It Takes Two to Tango](https://arxiv.org/abs/2209.07686), 将CoT few shot中的样例分成三个部分：symbol, pattern和text，symbol是数字或者实体等，pattern则可以是symbol的组合（比如一个公式或等式）也可以是某种句式等。text则是剩下的文本。paper发现，symbol本身的正确性影响不大，而text和pattern之间的关系则非常重要，text帮助生成useful patterns，而pattern则帮助增强理解任务，使模型能够更好的解决任务。最后，paper将CoT prompt剪枝了20%的token，也能够达到同样差不多的效果。
-- [ReAct: Synergizing Reasoning and Acting in Language Models](https://arxiv.org/abs/2210.03629), 让模型输出reason thought，同时也让模型输出action（比如去搜索网络结果），也就是reason（Re） + action(Act)，合并为ReAct。实际的inference过程大致上分为：reason -> action -> observation
+- [ReAct: Synergizing Reasoning and Acting in Language Models](https://arxiv.org/abs/2210.03629), 让模型输出reason thought，同时也让模型输出action（比如去搜索网络结果），也就是reason（Re） + action(Act)，合并为ReAct。实际的inference过程大致上分为：reason -> action -> observation, AutoGPT核心参考这篇工作。
 - [Plan-and-Solve Prompting: Improving Zero-Shot Chain-of-Thought Reasoning by Large Language Models](https://arxiv.org/abs/2305.04091), 提出Plan-and-Solve Prompting，就是简单的将Zeroshot CoT中的“Let’s think step by step”替换成“Let’s first understand the problem and devise a plan to solve the problem. Then, let’s carry out the plan and solve the problem step by step”, 本质上是一个prompt engineer的工作。
 - [InterCode: Standardizing and Benchmarking Interactive Coding with Execution Feedback](https://arxiv.org/abs/2306.14898), 直言现在都是static instruction-to-code错误有可能传导。提出InterCode，类比强化学习的设定，将code当做action，execution feedback当做observation，主要在Bash和SQL任务上做了一些实验。
 - [Embodied Task Planning with Large Language Models](https://arxiv.org/abs/2307.01848), 在embodied agent上提出TAsk Planing Agent (TaPA), 在一个simulator中（AI2-THOR），通过不同点的viewpoint，然后识别这些viewpoint中有哪些物体，另外再加上人类的instruction（比如做一个三明治），输入GPT-3.5，让它在object list和instruction的输入下生成详细的task planning步骤，这样便能够得到一个数据集。实验使用LLaMA在这个生成的数据集上进行finetune，然后使用finetune之后的LLaMA生成不同scene下不同task planning，最后请30个志愿者对task planning做评估。这篇paper还只是完成了机器人的第一步，就是用LLM生成任务plan，但并没有让机器人实际去执行这些动作。不过其实也是一篇用推理和规划的中间过程对LLM做finetune的又一个工作。
@@ -35,19 +35,52 @@
 - [STaR: Bootstrapping Reasoning With Reasoning](https://arxiv.org/abs/2203.14465), 通过few shot方式让LM在给定正确答案情况下生成rationale，如果不对就重试，搜集更多rationales之后就在上面把LM finetune一把，然后再继续few shot的过程以搜集更多rationales，重复这个过程。但是实验发现只能在简单的推理问题上有效果提升，在复杂的推理问题上效果比较差。
 - [Distilling Reasoning Capabilities into Smaller Language Models](https://arxiv.org/abs/2212.00193), 提出Socratic CoT方法，通过few shot的方式让LLM先做问题分解，然后再分别解决子问题。同时训练两个小模型，一个用来做问题分解，另一个做子问题。
 - [Guess the Instruction! Flipped Learning Makes Language Models Stronger Zero-Shot Learners](https://arxiv.org/abs/2210.02969), 提出一个Flipped Learning方法，核心思想是给定input和label的情况下，让模型生成instruction，而普通的few shot方式则是instructio+input，让模型给出label。这里刚好是一个逆过程。实验结果表明，在zero shot设定下，flipped learning之后的模型效果是最好的，哪怕参数比GPT3小几十上百倍，但是依然比GPT3和PaLM的zero shot效果好很多，甚至比GPT3的3-shot效果还要好。
+- [Self-planning Code Generation with Large Language Model](https://arxiv.org/abs/2303.06689), 将代码生成问题通过两个阶段来实现，阶段一：通过few-shot的方式(示例就是intent-plan对)让LLM先给出plan，阶段二：通过intent和生成的plan，让模型再生成代码。最后发现在HumanEval和MBPP上比CoT效果还要好。不过这篇paper主要是prompt层面的方案，不涉及到模型参数改动。
+- [Plan, Eliminate, and Track Language Models are Good Teachers for Embodied Agents](https://arxiv.org/abs/2305.02412), 主要用在emboddied agent上，设计了一个三层结构：plan模块主要使用LLM作为任务分解器将大任务分解多个子任务，eliminate模块则主要负责将agent看到的物品中与当前子任务无关的object mask掉，track模块则主要负责判断当前子任务是否得到了解决。说自己是第一个hierarchical planning with natural language and progress tracking.
+- [Language Models as Zero-Shot Planners: Extracting Actionable Knowledge for Embodied Agents](https://arxiv.org/abs/2201.07207), 分成三步，第一步是让LLM对任务进行分解得到第一步，然后将第一步结果用一个translator将这个步骤转换为可以执行的步骤，第三步则再将这个被转化为更规范步骤的文本输入到LLM中让它生成下一步动作。这种做法相当于是把LLM作为一个action planner，但是LLM输出的plan step和能被接收的action空间还是有些差距的，需要经过中间的一个翻译器进行转换，完全可以做成end-to-end方式。
+- [Instruction Mining: High-Quality Instruction Data Selection for Large Language Models](https://arxiv.org/abs/2307.06290), 提出instruction mining来从instruction tuning数据集中挖掘高质量的tuning数据集。paper主要是提出了一套指标来衡量tuning数据集的质量，为了验证这套指标的有效性，分别构造了一系列不同质量的数据集，然后实际的finetune一系列对应的LLM，然后观察实际训练出来的LLM效果和这套指标是否能够对应起来，如果实际finetune的LLM效果确实能够与指标对齐，那么就说明这套指标的有效性。而实际finetune的LLM效果是用LLM在一个统一的高质量tuning数据集上的loss来进行判定，这个当做一个groun truth。这个paper的核心贡献是提出了一个指标体系来衡量tuning数据集的质量。
+- [Reflexion: Language Agents with Verbal Reinforcement Learning](https://arxiv.org/abs/2303.11366), 不用二分类或标量的反馈信号，而是用一个所谓"semantic gradient signal"，但是又不去更改模型的参数，只是把这些verbal language feedback用一个memory buffer缓存起来。主要由四个部分组成：actor，evaluator，self-reflextion和memory。actor每次产生一个方案trajectory（实际上是一系列action和observation的组合），这里的actor由ReAct来实现，然后交给evaluator进行评价，实际上就是评价当前这个方案是否成功等等，相当于reward作用。然后再把当前的trajectory和evaluator的输出一起输入self-reflection模块（是一个LLM）进行总结得到一个自然语言的描述，将它存到memory中。这个memory存储了每一轮的总结（paper里最多是存储3轮的结果），以供下一轮actor使用。最后的实验在decision making(AlfWorld)，coding（HumanEval）和language resoning（HotPotQA）任务上都有很好提升。本质上是一个prompt engineer工作，不涉及到模型参数更新。
+- [REFINER: Reasoning Feedback on Intermediate Representations](https://arxiv.org/abs/2304.01904), 核心由两个模型组成：generator和critic model，首先由generator生成多个方案，然后交给critic model进行评价，给出一个structure feedback，将feedback输入给generator重新生成方案。为了训练critic model，根据不同任务类型将错误情况进行分类，最后通过rule-based方法构造了错误的数据以及对应的feedback，最后拿这些数据训练一个critic model（具体使用的是UnifiedQa-T5-base，训练目标是文字的feedback）。最大的贡献是提供了一个generator和critic model双模型的结构，并且critic model提供的是一个细粒度的反馈，并且能够联合起来进行训练。但是问题是，训练critic model过程中要对数据进行大量的标注和精心的设计。
+- [TaskMatrix.AI: Completing Tasks by Connecting Foundation Models with Millions of APIs](https://arxiv.org/abs/2303.16434),
+- [ROSCOE: A Suite of Metrics for Scoring Step-by-Step Reasoning](https://arxiv.org/abs/2212.07919),
+- [MathPrompter: Mathematical Reasoning using Large Language Models](https://arxiv.org/abs/2303.05398),
+- [Chain-of-Thought Hub: A Continuous Effort to Measure Large Language Models' Reasoning Performance](https://arxiv.org/abs/2305.17306),
+- [PaD: Program-aided Distillation Specializes Large Models in Reasoning](https://arxiv.org/abs/2305.13888), 一般是用大模型做推理中间过程来蒸馏小模型，但是大模型的中间过程可能是错误的，这会导致小模型的性能损失。这篇paper提出用代码运行结果来保证中间过程的正确性。具体做法就是通过few shot方式给大模型一些用代码表示的中间推理过程，然后让大模型输出新问题的代码版本推理过程，根据这个生成代码的编译结果和运行结果，只保留正确的样本。最后再拿这些搜集到的样本去蒸馏小模型。核心贡献就是用代码的方式保证了中间推理过程的正确性，这里面最关键的是代码天然带有最准确的反馈信号。
+- [LLM+P: Empowering Large Language Models with Optimal Planning Proficiency](https://arxiv.org/abs/2304.11477), 提出LLM+P，先由大模型将问题转化为PDDL，然后使用domain planner来生成PDDL的解决方案，再由大模型转化为自然语言描述的解决方案。paper里说LLM善于做linguistic competence，但不擅长于做 functional competence。在LLM+P里，LLM只是做为一个翻译器，完成自然语言和PDDL之间的转换，真正完成决策功能的都是由中间的planner，PDDL planner由domain file和problem file两个文件组成，这个文章都假定domain file已经是现成的了，而这才是整个plan问题的核心，需要大量人工的介入。怎么样自动生成domain pddl以及能否让LLM闭环完成，这个问题更为重要。
+- [Toolformer: Language Models Can Teach Themselves to Use Tools](https://arxiv.org/abs/2302.04761), 提出Toolformer，主要过程是先从语料中构造一个可以使用API call的语料，然后再用这个语料finetune模型。构造API call语料的过程主要分为三步：第一步是通过in context learning的方式让LLM采样一些潜在有API call的语料，也就是针对语料的一些部位生成一些候选的API call，第二步是实际执行这些call，第三步是做过滤，具体方式是观察给定这个response下是否能够减小LLM预测下一个token时候的loss，如果有助于则保留这个call继续下一个API call的尝试。语料构造完成之后，再使用这个带API call的语料对LLM进行finetune，API call的相关文本是直接插入到原有语料中的。inference阶段则当模型输出一个"->"符号则意味着要进行API call了，此时模型会停止继续预测，而是先进行API call拿到response后输入到模型中继续生成。paper里主要尝试了QA，search，calculator，translator和calender这些tool。这个paper主要还是数据构造的方式可以值得借鉴（但采样效率极低），但整个API call根本不是交互形式而是直接也按照token进行预测，这没有太多plan的思想在这里。
+- [Textbooks Are All You Need](https://arxiv.org/abs/2306.11644), 主要是在coding问题上做数据selection，数据总共7B tokens，由三部分组成：一部分是从the stack和stackoverflow上挑选出来的数据（6B，使用LM based classifier做过滤），第二部分是用GPT3.5生成的textbook数据（不到1B），第三部分是由GPT3.5生成的Python练习题（180M，也是由GPT3.5生成。），paper里统一把前两个数据集统称为"CodeTextbooks"（实际上两个都不是真正的textbooks），然后把第三步数据称为"CodeExercises"，先在不到7B语料的CodeTextbooks上做pretrain，然后在180M的CodeExercises语料上做finetune，不过需要注意的是模型在这7B数据上过了8遍，相当于计算量是56B数据大小。结果发现1.3b的model能够超过大它十几倍以及数据量几十倍上训出来的模型（基本上只比GPT4差了），并且在350M模型上也能够有humaneval@pass1达到45%。paper里说code textbook相比web语料会更加的clear, self-contained, instructive, and balanced，类比人类学习coding，人也很难从各种庞杂繁复解释又少的充满噪声的web语料中学习到更好的coding技能。过滤the stack和stackoverflow数据的时候先使用GPT4（prompt是"determine its educational value for a student whose goal is to learn basic coding concepts"）标注了100k个样例，然后使用LM输出的embedding特征训练一个random forest分类器类决定语料中哪些是比较好的学习语料。实验表明在180m的CodeExercises数据上finetune之后效果提升最显著，但个人猜测主要是CodeExercises数据格式和HumanEval格式完全匹配，使得模型的instruction following能力大幅增强了，这可能是一个很重要的原因。不过有趣的是模型在其他能力上也有很大的提升。
+- [](),
+- [](),
+- [](),
+- [](),
+- [](),
+- [](),
+- [TinyStories: How Small Can Language Models Be and Still Speak Coherent English?](https://arxiv.org/abs/2305.07759), 发现用简单的文本训练非常小的模型（10m参数）也能够获得较好的效果。
 - [Noisy Channel Language Model Prompting for Few-Shot Text Classification](https://arxiv.org/abs/2108.04106), 
 - [MetaICL: Learning to Learn In Context](https://arxiv.org/abs/2110.15943),
 
 
 # Dataset
-- MMLU, 
+- MMLU, 包含57个各类教育学科与职业学科的数据集
+- HellaSwag, 常识NLI数据集，让模型补全句子，一般把它归入语言能力
+- AI2 Reasoning Challenge（ARC），包含grade3到grade9年级的科学数据集，包括easy和challenge两档，challenge需要推理。GTP4只用了challenge-set
+- [WinoGrande](https://huggingface.co/datasets/winogrande), 常识推理数据集，给出一个句子并且挖掉一个空让模型从给定选项里选择正确词，指代消解问题。需要进行推理。
+- [HumanEval](https://github.com/openai/human-eval), 代码数据集，
 - DROP, Discrete Reasoning Over Paragraphs
-- CRASS, The Counterfactual Reasoning Assessment
-- HumanEval
-- BigBench Hard
+- GSM-8K，高中数学题
+- TriviaQA，阅读理解
+- QuALITY, 长内容上的QA
+- RACE-H，阅读理解
+- [BigBench Hard](https://github.com/suzgunmirac/BIG-Bench-Hard), 
+- StrategyQA  
+- CommonsenseQA
+- XCOPA
+- CRASS, The Counterfactual Reasoning Assessment  
 - COIG, https://huggingface.co/datasets/BAAI/COIG, Chinese Open Instruction Generalist
 - OpenOrca, https://huggingface.co/datasets/Open-Orca/OpenOrca
 - COPA, https://huggingface.co/datasets/vietgpt/copa_en
+- Alfworkd
+- HotPotQA
 
 
 # other
@@ -56,3 +89,6 @@
 - [复杂推理：大语言模型的北极星能力](https://yaofu.notion.site/6dafe3f8d11445ca9dcf8a2ca1c5b199), pretrain/finetune/RL/prompt阶段都有办法提高推理能力。
 - [ACL 2023 Tutorial: Complex Reasoning in Natural Language](https://wenting-zhao.github.io/complex-reasoning-tutorial/), 
 - [LLM Tool Use Papers](https://github.com/xlang-ai/llm-tool-use), 有关tool use paper的github repo
+- [Planning.Wiki - The AI Planning & PDDL Wiki](https://planning.wiki/), 
+
+
