@@ -24,9 +24,14 @@ A Winning Combination for Large Language Models，https://arxiv.org/pdf/2305.147
 
 ## Finetune
 - [The Flan Collection: Designing Data and Methods for Effective Instruction Tuning](https://arxiv.org/abs/2301.13688), Flan-v2版本，混合了Flan-v1，P3，SNI，包含了zero-shot,few-shot和CoT的数据。paper里发现混合zeroshot和fewshot以及CoT数据，最有助于模型效果的提升，而通过Flan-v2 instruction tuning之后的T5，能够超过几十倍大小模型的OPT效果。
+- [Instruction Mining: High-Quality Instruction Data Selection for Large Language Models](https://arxiv.org/abs/2307.06290), 提出instruction mining来从instruction tuning数据集中挖掘高质量的tuning数据集。paper主要是提出了一套指标来衡量tuning数据集的质量，为了验证这套指标的有效性，分别构造了一系列不同质量的数据集，然后实际的finetune一系列对应的LLM，然后观察实际训练出来的LLM效果和这套指标是否能够对应起来，如果实际finetune的LLM效果确实能够与指标对齐，那么就说明这套指标的有效性。而实际finetune的LLM效果是用LLM在一个统一的高质量tuning数据集上的loss来进行判定，这个当做一个groun truth。这个paper的核心贡献是提出了一个指标体系来衡量tuning数据集的质量。
 
 ## Alignment
 - [Training Socially Aligned Language Models in Simulated Human Society](https://arxiv.org/abs/2305.16960), 提出Stable Alignment方法，具体方法是建了一个由许多个LM agent组成的一个sandbox，然后基于社交规则可以获得模拟的评分，step-by-step的响应以及各种feedback数据。通过这些数据可以进行contrastive SFT（让模型偏好于评分更高的alignment数据上）。Stable Alignment方法不需要强化学习。
+
+## Prompt Engineer
+- [Rethinking the Role of Demonstrations: What Makes In-Context Learning Work?](https://arxiv.org/abs/2202.12837), 在in-context-learning提供给模型的示例中，发现两个比较重要的点：第一，格式最重要，而示例中是否是golden label并没有那么重要，相比golden label用一个随机label替换效果只有轻微降低，但是完全没有label则会带来很大的损失；第二，input和label的分布空间比较重要。比如input如果是从别的语料中随机采样，或者label是随机选择的一个别的英语单词，这种都属于out of distribution space，则会带来很大的性能损失。这些结果表明LLM在ICL中并没有进行学习（否则就会学到错误的label），只是通过ICL的format和space激发LLM已有的能力，此外在zero shot的设定中，哪怕随机组合一些input和label也能有很明显的效果。这些都说明了LLM非常需要一种结构化的信息。
+- [Text and Patterns: For Effective Chain of Thought, It Takes Two to Tango](https://arxiv.org/abs/2209.07686), 将CoT few shot中的样例分成三个部分：symbol, pattern和text，symbol是数字或者实体等，pattern则可以是symbol的组合（比如一个公式或等式）也可以是某种句式等。text则是剩下的文本。paper发现，symbol本身的正确性影响不大，而text和pattern之间的关系则非常重要，text帮助生成useful patterns，而pattern则帮助增强理解任务，使模型能够更好的解决任务。最后，paper将CoT prompt剪枝了20%的token，也能够达到同样差不多的效果。
 
 
 ## Evaluation
