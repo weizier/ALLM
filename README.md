@@ -14,6 +14,9 @@ https://twitter.com/novelaiofficial/status/1661058751896469520\
 Glot 500
 https://github.com/cisnlp/Glot500
 
+# Base Model
+- [GLM-130B: An Open Bilingual Pre-trained Model](https://arxiv.org/abs/2210.02414), 
+
 # Paper
 A PhD Student's Perspective on Research in NLP in the Era of Very Large Language Models
 https://arxiv.org/abs/2305.12544
