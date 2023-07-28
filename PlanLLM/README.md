@@ -60,13 +60,16 @@
 
 ## Tool
 - [Toolformer: Language Models Can Teach Themselves to Use Tools](https://arxiv.org/abs/2302.04761), 提出Toolformer，主要过程是先从语料中构造一个可以使用API call的语料，然后再用这个语料finetune模型。构造API call语料的过程主要分为三步：第一步是通过in context learning的方式让LLM采样一些潜在有API call的语料，也就是针对语料的一些部位生成一些候选的API call，第二步是实际执行这些call，第三步是做过滤，具体方式是观察给定这个response下是否能够减小LLM预测下一个token时候的loss，如果有助于则保留这个call继续下一个API call的尝试。语料构造完成之后，再使用这个带API call的语料对LLM进行finetune，API call的相关文本是直接插入到原有语料中的。inference阶段则当模型输出一个"->"符号则意味着要进行API call了，此时模型会停止继续预测，而是先进行API call拿到response后输入到模型中继续生成。paper里主要尝试了QA，search，calculator，translator和calender这些tool。这个paper主要还是数据构造的方式可以值得借鉴（但采样效率极低），但整个API call根本不是交互形式而是直接也按照token进行预测，这没有太多plan的思想在这里。
+- [ART: Automatic multi-step reasoning and tool-use for large language models](https://arxiv.org/abs/2303.09014), 针对任务准备好一些示例叫做task library，针对一个新的task，从这个task library中找到一些示例形成demonstration，最后让LLM将这个task做分解并分布解决。这个工作的主要问题在于需要构建和维护一个task library.
 
 ## Other
 - [Language Models Are Greedy Reasoners: A Systematic Formal Analysis of Chain-of-Thought](https://arxiv.org/abs/2210.01240), 提出PRONTOQA（Proof and Ontology-Generated Question Answering）数据集，主要分成三个步骤：ontology generation, proof generation，然后生成一个自然语言样例，包括question，CoT和label。有了这个PrOntoQA数据集之后，作者拿InstructGPT和ChatGPT来做了测试，发现较大size的模型才能够做推理，但是在需要多跳上的推理数据上表现都很差。paper更多是提出一个数据集，并没有做任何模型训练。
 - [Guess the Instruction! Flipped Learning Makes Language Models Stronger Zero-Shot Learners](https://arxiv.org/abs/2210.02969), 提出一个Flipped Learning方法，核心思想是给定input和label的情况下，让模型生成instruction，而普通的few shot方式则是instructio+input，让模型给出label。这里刚好是一个逆过程。实验结果表明，在zero shot设定下，flipped learning之后的模型效果是最好的，哪怕参数比GPT3小几十上百倍，但是依然比GPT3和PaLM的zero shot效果好很多，甚至比GPT3的3-shot效果还要好。
 - [Integrating Action Knowledge and LLMs for Task Planning and Situation Handling in Open Worlds](https://arxiv.org/abs/2305.17590), 将大模型的能力与PDDL进行结合，主要是将一些常识能力引入到PDDL中。
 - [LLM+P: Empowering Large Language Models with Optimal Planning Proficiency](https://arxiv.org/abs/2304.11477), 提出LLM+P，先由大模型将问题转化为PDDL，然后使用domain planner来生成PDDL的解决方案，再由大模型转化为自然语言描述的解决方案。paper里说LLM善于做linguistic competence，但不擅长于做 functional competence。在LLM+P里，LLM只是做为一个翻译器，完成自然语言和PDDL之间的转换，真正完成决策功能的都是由中间的planner，PDDL planner由domain file和problem file两个文件组成，这个文章都假定domain file已经是现成的了，而这才是整个plan问题的核心，需要大量人工的介入。怎么样自动生成domain pddl以及能否让LLM闭环完成，这个问题更为重要。
+- [Leveraging Large Language Models to Generate Answer Set Programs](https://arxiv.org/abs/2307.07699), 利用LLM将问题转化为Answer Set Program（ASP）.
 - [Faithful Chain-of-Thought Reasoning](https://arxiv.org/abs/2301.13379), 提出Faithful CoT，基本思路是分成两个阶段：translate和solve，translate阶段主要是用LLM把自然语言描述的问题转化为python/datalog或者PDDL，第二阶段solve则使用一个确定性的系统来解决问题。主要研究了四类问题：数学题，Multi-hop QA, planning和Logical inference. 这个工作比LLM+P研究的范围更大一些，但本质是一样的，将LLM当做一个确定性系统的翻译器，真正完成计算或者执行的都是交由一个确定性系统来进行，比如Python/Datalog Interpreter或者PDDL Planner等等。
+- [Leveraging Large Language Models (LLMs) for Process Mining](https://arxiv.org/abs/2307.12701), 将LLM应用在Process Mining(过程挖掘)中，比如从event log中挖掘出过程，形成过程数据。这在RPA等这种过程类的场景有很大的作用。
 
 
 ## Survey
@@ -91,6 +94,8 @@
 - [Language Models Don't Always Say What They Think: Unfaithful Explanations in Chain-of-Thought Prompting](https://arxiv.org/abs/2305.04388), 
 - [Iterated Decomposition: Improving Science Q&A by Supervising Reasoning Processes](https://arxiv.org/abs/2301.01751), 
 - [Selection-Inference: Exploiting Large Language Models for Interpretable Logical Reasoning](https://arxiv.org/abs/2205.09712), 
+- [Causal Reasoning and Large Language Models: Opening a New Frontier for Causality](https://arxiv.org/abs/2305.00050), 
+- [Automatic Generation of Socratic Subquestions for Teaching Math Word Problems](https://arxiv.org/abs/2211.12835), 
 - [](), 
 - [](), 
 - [](), 
@@ -121,10 +126,7 @@
 - [](), 
 - [](), 
 - [](), 
-- [](), 
-- [](), 
-- [](), 
-- [TinyStories: How Small Can Language Models Be and Still Speak Coherent English?](https://arxiv.org/abs/2305.07759), 发现用简单的文本训练非常小的模型（10m参数）也能够获得较好的效果。
+- [TinyStories: How Small Can Language Models Be and Still Speak Coherent English?](https://arxiv.org/abs/2305.07759), 发现用简单的文本训练非常小的模型（10m参数）也能够获得较好的效果（包括生成连贯流利的stories，还有推理和instruction following能力）。提出TinyStories数据集，这个是用GPT3.5和GPT4生成的，使用的词汇都是3-4岁阶段能够明白的简单词汇。构造方式就是从1500个基本词汇中随机挑选3个词让LLM生成包含这3个词的story。主要问题是这个工作用GPT4生成训练集，又用GPT4来做评判。并且没有在公开评测集上做过评测。
 - [Noisy Channel Language Model Prompting for Few-Shot Text Classification](https://arxiv.org/abs/2108.04106), 
 - [MetaICL: Learning to Learn In Context](https://arxiv.org/abs/2110.15943),
 
