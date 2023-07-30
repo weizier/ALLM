@@ -72,6 +72,14 @@ A Winning Combination for Large Language Models，https://arxiv.org/pdf/2305.147
   - 强化学习阶段则可以使用中间信号建模reward，而不是一个最终的答案
   - prompt engineer阶段则可以使用非常多方式提升LLM的推理能力。
 - [Prompt Engineering](https://lilianweng.github.io/posts/2023-03-15-prompt-engineering/), 系统的介绍。
+- 
+
+## OpenAI blog
+- [Planning for AGI and beyond](https://openai.com/blog/planning-for-agi-and-beyond), 主要是强调了AGI的safety与alignment问题，其中比较有价值的就是透露了OpenAI在alignment上会使用AI本身来做一些工作，先是让AI来辅助人类做feedback，然后更长远会让AI研究更好的alignment技术。
+- [Our approach to alignment research](https://openai.com/blog/our-approach-to-alignment-research), 这篇就是具体讲如何做alignment，分成三步走：第一步是RLHF，第二步是利用AI来辅助人类提供feedback，这个的主要出发点是在一些问题上人类要么很难快速高效的提供feedback（比如对一个很长的书做总结人类可能很难高效率的读完每一本书才能给出feedback），要么是已经超出了人类理解边界（比如AlphaGO下出一个关键步但人类无法理解）。第三步是利用AI直接研究更好的alignment技术。第二步中提到的几个技术：recursive reward modeling (RRM), debate, and iterated amplification. 并且blog中强调目前主要方向在RRM。
+- [Learning complex goals with iterated amplification](https://openai.com/research/learning-complex-goals-with-iterated-amplification), 早在2018年，OpenAI便在研究复杂问题中如何引入人类的监督信号，一些真实场景的问题很难类似于简单的supervised learning那样给一个简单的label，因此怎么样把人类的反馈信号引入到这样的学习系统中去，提出了一个想法：先让模型学习一些人类能够直接给出监督信号的简单任务，然后在第二个阶段的稍复杂任务中先让人类做任务分解，分解之后的子任务便可以使用第一阶段已训好的模型能够直接解决。这样便得到了这个稍复杂任务的全部解法和监督信号（人类做任务分解+模型解决子任务），然后再训模型让它直接解决这个稍复杂的任务。通过类似的方法，可以逐步迭代解决更为复杂的任务，因此这个方法叫做Iterated amplification。
+- [AI safety via debate](https://openai.com/research/debate), 如果一个任务过于复杂以至于人类无法判断，提出让两个agent不断debate，也就是不断提出它们的argument，直到人类能够做出判断为止。作为原型，OpenAI在mnist任务上让两个agent针对5的图片，一个说是5另一个说是6，然后不断提出自己的论点，最后通过综合它们的论点，一个sparse classifier用了很少的信息便能够得到正确的答案。这两个debate的agent有点像是左右互搏，一个想要尽量欺骗最后的分类器，另一个想要尽量让分类器更准确。
+- [](), 
 
 
 # Dataset
