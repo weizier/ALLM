@@ -68,6 +68,7 @@
 - [Integrating Action Knowledge and LLMs for Task Planning and Situation Handling in Open Worlds](https://arxiv.org/abs/2305.17590), 将大模型的能力与PDDL进行结合，主要是将一些常识能力引入到PDDL中。
 - [LLM+P: Empowering Large Language Models with Optimal Planning Proficiency](https://arxiv.org/abs/2304.11477), 提出LLM+P，先由大模型将问题转化为PDDL，然后使用domain planner来生成PDDL的解决方案，再由大模型转化为自然语言描述的解决方案。paper里说LLM善于做linguistic competence，但不擅长于做 functional competence。在LLM+P里，LLM只是做为一个翻译器，完成自然语言和PDDL之间的转换，真正完成决策功能的都是由中间的planner，PDDL planner由domain file和problem file两个文件组成，这个文章都假定domain file已经是现成的了，而这才是整个plan问题的核心，需要大量人工的介入。怎么样自动生成domain pddl以及能否让LLM闭环完成，这个问题更为重要。
 - [Leveraging Large Language Models to Generate Answer Set Programs](https://arxiv.org/abs/2307.07699), 利用LLM将问题转化为Answer Set Program（ASP）.
+- [AutoTAMP: Autoregressive Task and Motion Planning with LLMs as Translators and Checkers](https://arxiv.org/abs/2306.06531), 将LLM当作一个翻译器，同样也是把task翻译成TAMP语言，然后再通过TAMP系统做规划。
 - [Faithful Chain-of-Thought Reasoning](https://arxiv.org/abs/2301.13379), 提出Faithful CoT，基本思路是分成两个阶段：translate和solve，translate阶段主要是用LLM把自然语言描述的问题转化为python/datalog或者PDDL，第二阶段solve则使用一个确定性的系统来解决问题。主要研究了四类问题：数学题，Multi-hop QA, planning和Logical inference. 这个工作比LLM+P研究的范围更大一些，但本质是一样的，将LLM当做一个确定性系统的翻译器，真正完成计算或者执行的都是交由一个确定性系统来进行，比如Python/Datalog Interpreter或者PDDL Planner等等。
 - [Leveraging Large Language Models (LLMs) for Process Mining](https://arxiv.org/abs/2307.12701), 将LLM应用在Process Mining(过程挖掘)中，比如从event log中挖掘出过程，形成过程数据。这在RPA等这种过程类的场景有很大的作用。
 
