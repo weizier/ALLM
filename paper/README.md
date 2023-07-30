@@ -9,6 +9,7 @@ A Winning Combination for Large Language Models，https://arxiv.org/pdf/2305.147
 - InterCode: Standardizing and Benchmarking Interactive Coding with Execution Feedback，https://intercode-benchmark.github.io/，代码是action，将code执行结果作为observation，不断交互的让模型生成新的代码。主要比较了四种方法：single turn，try again, ReAct，plan & solve。
 
 ## Data/pretrain
+- [Skill-it! A Data-Driven Skills Framework for Understanding and Training Language Models](https://arxiv.org/abs/2307.14430), 主要做Data Selection，从人类学习过程得到启发，在学习更复杂更困难得任务之前，先让模型学习相关的更简单的任务，发现在同样的compute budget下模型能够得到更好的效果。基本方法是先发现数据中的skill graph，然后基于graph进行online sampling，原则是尽量先采样更简单的前置任务以及还没有学习的任务。
 
 ## Engineer
 ### train
