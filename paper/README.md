@@ -36,7 +36,8 @@ A Winning Combination for Large Language Models，https://arxiv.org/pdf/2305.147
 
 
 ## Evaluation
-- [A Survey on Evaluation of Large Language Models](https://arxiv.org/abs/2307.03109), 
+- [A Survey on Evaluation of Large Language Models](https://arxiv.org/abs/2307.03109),
+- [Reasoning or Reciting? Exploring the Capabilities and Limitations of Language Models Through Counterfactual Tasks](https://arxiv.org/abs/2307.02477), 作者将正常的Evaluation任务中的题全部做了一些更改，比如将二位数加法从十进制改为9进制，python代码中list下标改为从1开始而不是0等等，然后把这样生成的数据叫做Counterfactual Task，结果发现所有模型都在这些新得task上显著下降，这说明模型不是真正的在做reason，而只是某种程度记住了训练数据上的一些潜在数据而已。
 
 
 ## Multimodal
