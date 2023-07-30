@@ -49,6 +49,7 @@ A Winning Combination for Large Language Models，https://arxiv.org/pdf/2305.147
 - [Embodied Task Planning with Large Language Models](https://arxiv.org/abs/2307.01848), 
 - [Robots That Ask For Help: Uncertainty Alignment for Large Language Model Planners](https://arxiv.org/abs/2307.01928), 让模型知道它们不知道从而寻求人类的帮助。具体就是使用Conformal Prediction方法在预测下一个步骤的时候，给每个可能选项带上分数，如果超过阈值的选项个数大于1个，模型则会反问人类并寻求帮助。
 - [Scaling Up and Distilling Down: Language-Guided Robot Skill Acquisition](https://arxiv.org/abs/2307.14535), 主要是机器人领域，分成两个大的阶段：第一阶段是利用LLM生成planning数据也就是所谓scale up训练数据，第二阶段是利用生成得到的数据distill到policy model上。生成数据阶段会利用LLM首先生成tree plan，然后转化为一个小段代码保证plan数据的准确。在第二阶段主要使用diffusion policy的方法，基本思想是利用offline RL的思路。
+- [Leveraging Implicit Feedback from Deployment Data in Dialogue](https://arxiv.org/abs/2307.14117), 主要是对话场景，分成两个阶段：第一个阶段是通过一些规则和训练一些模型来预测机器说话之后人类的可能反应（比如人类回复文字长度，情感极性等等），这个相当于是训练了一个reranker模型；第二阶段在实际对话过程中先生成20个候选，然后经过reranker做重排，选取分数最高的回复作为最终回复。
 
 ## RAG
 - [REALM: Retrieval-Augmented Language Model Pre-Training](https://arxiv.org/abs/2002.08909), 提出REALM，基于bert的Mask方法，在预测某个被masked的token时候，去检索Wikipedia语料，拿到结果与当前上下文共同预测这个被masked词。
