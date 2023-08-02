@@ -29,6 +29,7 @@ A Winning Combination for Large Language Models，https://arxiv.org/pdf/2305.147
 
 ## Alignment
 - [Training Socially Aligned Language Models in Simulated Human Society](https://arxiv.org/abs/2305.16960), 提出Stable Alignment方法，具体方法是建了一个由许多个LM agent组成的一个sandbox，然后基于社交规则可以获得模拟的评分，step-by-step的响应以及各种feedback数据。通过这些数据可以进行contrastive SFT（让模型偏好于评分更高的alignment数据上）。Stable Alignment方法不需要强化学习。
+- [Open Problems and Fundamental Limitations of Reinforcement Learning from Human Feedback](https://arxiv.org/abs/2307.15217), 先讲RLHF当前的主要问题，然后讲可能得解决方案。在问题部分，主要分成三个方面：human feedback，reward model以及policy，human feedback方面，比如human可能给出不准确的feedback，困难任务上feedback可能本来就很难给，并且还存在许多成本和数据质量的折中；reward model方面，human's value很难用一个reward function来表示等；policy model本身很难训，与真实环境的misgeneralization问题等。解决human feedback的可选方法是用AI feedback（OpenAI基本在押注这个方向），更细粒度的feedback信号，process-based信号等；reward model阶段则可以使用multi-objective,或直接给于feedback，保持一定的uncertainty提高output的多样性。policy model阶段则有直接在pretrain阶段做对齐，或者通过监督学习的手段做对齐。
 
 ## Prompt Engineer
 - [Rethinking the Role of Demonstrations: What Makes In-Context Learning Work?](https://arxiv.org/abs/2202.12837), 在in-context-learning提供给模型的示例中，发现两个比较重要的点：第一，格式最重要，而示例中是否是golden label并没有那么重要，相比golden label用一个随机label替换效果只有轻微降低，但是完全没有label则会带来很大的损失；第二，input和label的分布空间比较重要。比如input如果是从别的语料中随机采样，或者label是随机选择的一个别的英语单词，这种都属于out of distribution space，则会带来很大的性能损失。这些结果表明LLM在ICL中并没有进行学习（否则就会学到错误的label），只是通过ICL的format和space激发LLM已有的能力，此外在zero shot的设定中，哪怕随机组合一些input和label也能有很明显的效果。这些都说明了LLM非常需要一种结构化的信息。
