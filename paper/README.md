@@ -67,6 +67,7 @@ A Winning Combination for Large Language Models，https://arxiv.org/pdf/2305.147
 - [Challenges and Applications of Large Language Models](https://arxiv.org/abs/2307.10169), 分成挑战和应用两个部分。
   挑战包括数据集（near duplicates, benchmark污染，隐私信息，预训练数据mixture，finetuning数据mixture，tokenizer，训练成本太高，过度finetune，inference性能，配套软件比如megatron等，受限的context length，脆弱的prompt，幻觉，对齐问题，信息过时，脆弱的evaluation以及evaluation数据是静态且需要人工标注，无法区分模型生成还是人类数据，无法通过scale解决的困难task）；
   应用包括Chatbots，Computational Biology(比如蛋白质预测)，代码生成（比如codex），创意工作，知识类工作（summarization，for science等），法律，医疗，推理，机器人和具身agent，社会科学，合成数据。
+- [Harnessing the Power of LLMs in Practice: A Survey on ChatGPT and Beyond](https://github.com/Mooler0410/LLMsPracticalGuide), 这个survery内容相对较少，最好的梳理是从encoder-only，decoder-only以及encoder-decoder这三个架构上按照时间线梳理出来一个树状的演化图，除此之外，主要从数据以及下游任务等角度展开，本survey侧重在如何使用大模型的角度。
 
 # blog
 - [June 2023, A Stage Review of Instruction Tuning](https://yaofu.notion.site/June-2023-A-Stage-Review-of-Instruction-Tuning-f59dbfc36e2d4e12a33443bd6b2012c2), FLANv2几乎能提升模型所有方面的能力除了human preference，因为Flan本身回复都偏短且主要是NLP任务为主，instruction mixture很重要需要考虑到各个下游能力的平衡（英文能力MMLU，中文C-Eval，推理主要是GSM8k，coding主要是HumanEval等等）。相关Tweet：https://twitter.com/Francis_YAO_/status/1674287552562360329
