@@ -63,7 +63,7 @@ A Winning Combination for Large Language Models，https://arxiv.org/pdf/2305.147
 
 ## Survey
 - [A Comprehensive Survey on Pretrained Foundation Models: A History from BERT to ChatGPT](https://arxiv.org/abs/2302.09419), 这个工作主要从NLP,CV,Graph Learning等领域角度，并且按照底层到下游任务这种角度去切分，比如从word representation,model,instruction finetuning到model compression这种纵向切分的角度展开讨论。
-- [A Survey of Large Language Models](https://arxiv.org/pdf/2303.18223.pdf), 
+- [A Survey of Large Language Models](https://arxiv.org/pdf/2303.18223.pdf), 只讨论语言模型，从纵向横切面分别展开：前面主要讨论技术基础（比如scaling law，emergent，OpenAI的早期探索等）和一些可用资源等。后面主要从LLM的底层到上层应用展开，分别包括：数据，模型架构，adaption tuning（包括instruction tuning， alignment tuning，parameter efficient tuning和 memory efficient tuning等），utilization方法（in context learning，CoT prompt，planning prompt等等），最后给出一些prompt engineer的建议和具体的应用方向等。
 - [Challenges and Applications of Large Language Models](https://arxiv.org/abs/2307.10169), 分成挑战和应用两个部分。
   挑战包括数据集（near duplicates, benchmark污染，隐私信息，预训练数据mixture，finetuning数据mixture，tokenizer，训练成本太高，过度finetune，inference性能，配套软件比如megatron等，受限的context length，脆弱的prompt，幻觉，对齐问题，信息过时，脆弱的evaluation以及evaluation数据是静态且需要人工标注，无法区分模型生成还是人类数据，无法通过scale解决的困难task）；
   应用包括Chatbots，Computational Biology(比如蛋白质预测)，代码生成（比如codex），创意工作，知识类工作（summarization，for science等），法律，医疗，推理，机器人和具身agent，社会科学，合成数据。
