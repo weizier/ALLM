@@ -62,7 +62,7 @@ A Winning Combination for Large Language Models，https://arxiv.org/pdf/2305.147
 
 
 ## Survey
-- [A Comprehensive Survey on Pretrained Foundation Models: A History from BERT to ChatGPT](https://arxiv.org/abs/2302.09419),
+- [A Comprehensive Survey on Pretrained Foundation Models: A History from BERT to ChatGPT](https://arxiv.org/abs/2302.09419), 这个工作主要从NLP,CV,Graph Learning等领域角度，并且按照底层到下游任务这种角度去切分，比如从word representation,model,instruction finetuning到model compression这种纵向切分的角度展开讨论。
 - [A Survey of Large Language Models](https://arxiv.org/pdf/2303.18223.pdf), 
 - [Challenges and Applications of Large Language Models](https://arxiv.org/abs/2307.10169), 分成挑战和应用两个部分。
   挑战包括数据集（near duplicates, benchmark污染，隐私信息，预训练数据mixture，finetuning数据mixture，tokenizer，训练成本太高，过度finetune，inference性能，配套软件比如megatron等，受限的context length，脆弱的prompt，幻觉，对齐问题，信息过时，脆弱的evaluation以及evaluation数据是静态且需要人工标注，无法区分模型生成还是人类数据，无法通过scale解决的困难task）；
