@@ -44,6 +44,7 @@ A Winning Combination for Large Language Models，https://arxiv.org/pdf/2305.147
 
 
 ## Multimodal
+- [Multimodal Foundation Models: From Specialists to General-Purpose Assistants](https://arxiv.org/abs/2309.10020), LLaVA作者们关于多模态LLM的一个综述。
 
 ## Code
 - [RLTF: Reinforcement Learning from Unit Test Feedback](https://arxiv.org/abs/2307.04349), 提出RLTF (Reinforcement Learning from unit Test Feedback), 利用单元测试的结果作为强化学习的反馈信号，这个idea非常自然。
